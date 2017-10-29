@@ -19,7 +19,7 @@ Route::post('/master/{tabel}/save', 'HomeController@mastersave')->name('mastersa
 Route::get('/master/{tabel}/edit/{id}', 'HomeController@masteredit')->name('masteredit');
 Route::post('/master/{tabel}/update', 'HomeController@masterupdate')->name('masterupdate');
 Route::get('/master/{tabel}/delete/{id}', 'HomeController@masterdelete')->name('masterdelete');
-Route::get('/{slug}', 'HomeController@page')->name('page');
+Route::get('/{slug}', 'GuestController@page')->name('page');
 
 Auth::routes();
 

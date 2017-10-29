@@ -11,7 +11,7 @@
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>Kokon Production Admin</title>
       <script type="text/javascript" src="{{asset('js/jquery-3.2.1.min.js')}}"></script>
       <script type="text/javascript" src="{{asset('js/materialize.js')}}"></script>
 </head>
