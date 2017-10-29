@@ -23,5 +23,4 @@ Route::get('/{slug}', 'HomeController@page')->name('page');
 
 Auth::routes();
 
-Route::get('/', 'GuestController@index')->name('index');
-Route::get('/home', 'GuestController@index')->name('home');
+Route::get('/', 'GuestController@page')->name('index');
