@@ -281,7 +281,7 @@ class HomeController extends Controller
             ];
         $field['socialmedias'] = [
             'model'=>Socialmedia::class,
-            'table'=>$table,
+            'table'=>'socialmedia',
             'type'=>'1',
             'fields'=>
                 [
