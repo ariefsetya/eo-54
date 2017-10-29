@@ -34,11 +34,6 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        return view('home');
-    }
-
     public function masterlist($table)
     {
         $data['data'] = $this->getData($table);
@@ -553,14 +548,5 @@ class HomeController extends Controller
         $data['data']['model']::find($id)->delete();
 
         return redirect()->route('masterlist',[$table]);
-    }
-    public function page($page)
-    {
-        $data = \App\Pages::whereSlug($page)->first();
-        if(sizeof($data)>0){
-            return view('home')->with(array('data'=>$data));
-        }else{
-            return "404 Not Found";
-        }
     }
 }
