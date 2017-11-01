@@ -182,7 +182,7 @@ li.logos img{
     max-height: 110px;
   }
   nav.menu ul.showing {
-    max-height: 20em;
+    max-height: 40em;
   }
   nav.menu ul li.logos {
     text-align: center;
@@ -197,11 +197,13 @@ li.logos img{
     text-align: left;
   }
   nav.menu ul li a{
-    line-height: 50px;
+    line-height: 20px;
     padding: 10px;
   }
   .handle {
     display: block;
+    line-height: 20px;
+    padding-bottom: 10px;
   }
   .wrapper {
     width: 150px;
