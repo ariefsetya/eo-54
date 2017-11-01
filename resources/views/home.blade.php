@@ -71,8 +71,7 @@
         $(".carousel-item").height($(window).height());
         $(".parallax-container").height($(window).height());
         @foreach(\App\Content::wherePageId(1)->get() as $key)
-        $("#{{$key->slug}}").height($(window).height()/4);
-        $("#{{$key->slug}}_2").height($(window).height()/4);
+        $("#{{$key->slug}}").height($(window).height());
         @endforeach
     });
     $(document).ready(function() {
