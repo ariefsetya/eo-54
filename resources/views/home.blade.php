@@ -46,7 +46,7 @@
               if($(window).width()<=580){
                 
                 $('html, body').animate({
-                  scrollTop: target.offset().top-190
+                  scrollTop: target.offset().top-150
                 }, 1000,function() {
                 });
 
