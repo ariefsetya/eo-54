@@ -20,6 +20,12 @@
 <hr>
 
 @endforeach
+<div class="content" id="client" style="background: url({{url('image/dotmap-indonesia.png')}});background-position: center;background-repeat: no-repeat;background-size:cover;">
+  <div class="container">
+    <h2>Clients</h2>
+  </div>
+</div>
+<hr>
 
 @endsection
 
@@ -29,12 +35,14 @@
     $(".carousel").height($(window).height());
     @foreach(\App\Content::wherePageId(1)->get() as $key)
     $("#{{$key->slug}}").height($(window).height());
-    $("#{{$key->slug}}_2").height($(window).height()/4);
     @endforeach
- $(document).ready(function(){
-      $('.parallax').parallax();
-    });
-    function goto(id){
+    $("#client").height($(window).height());
+ autoplay()   
+  function autoplay() {
+      $('.carousel').carousel('next');
+      setTimeout(autoplay, 4500);
+  }
+  function goto(id){
         if($('nav.menu ul').hasClass('showing')){
           $('nav.menu ul').toggleClass('showing');
         }
@@ -78,6 +86,9 @@
 *{
     outline: none;
     margin: 0;
+}
+#client h2{
+  margin: 0;
 }
 hr {
     border: 0;
@@ -154,7 +165,7 @@ li.logos img{
 }
 @media screen and (max-width: 580px) {
   #app {
-    margin-top: 180px;
+    margin-top: 150px;
   }
 
   .subcontent{
@@ -171,7 +182,7 @@ li.logos img{
   }
 
   nav.menu {
-    margin-top: -180px;
+    margin-top: -150px;
     position: fixed;
     width: 100%;
     height: auto;
