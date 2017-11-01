@@ -6,32 +6,18 @@
     <a class="carousel-item" href="#{{$key->title}}"><img src="{{url('image/'.$key->image)}}"></a>
   @endforeach
 </div>
-
-<div class="quote_home" style="text-align: right;" id="aboutus">
-    <div style="margin-left: 30%;">
-    <h1>Kokon Production</h1>
-    <p>Event Organizer merupakan bentuk service yang dapat menciptakan image, profesionalisme, dan kesuksesan suatu perusahaan, product, bahkan klient itu sendiri melalui berbagai macam bentuk dan program acara.</p>
-    <p>
-    KOKON PRODUCTION berdiri dibawah PT. Duta Art Propertindo, hadir dengan tenaga profesional, kompeten, dan berpengalaman yang menjaga konsistensi kualitas dari service kami. Memberikan efisiensi dan efektifitas kepada klient dalam membuat suatu acara akan menjadi suatu pengalaman yang tidak akan terlupakan, terasa di hati penyelenggara dan peserta acara.
-</p>
-<p>
-    Saya percaya KOKON PRODUCTION dapat mewujudkan suatu acara yang mewakili jiwa, visi dan impian Anda menjadi suatu kenyataan yang digambarkan melalui bentuk-bentuk acara yang di selenggarakan, serta memeriahkan dan memperkaya kegiatan.</p>
-
-<p>
-    "Kesuksesan Acara Mencerminkan Kesuksesan Anda"</p>
-
-    <h4>~ Muljadi Suhardi (Kokon)</h4>
-    </div>
-</div>
 @foreach(\App\Content::wherePageId($data->id)->get() as $key)
-<div class="quote2" id="{{$key->slug}}" style="background: url({{url('image/'.$key->image)}});background-size: cover;background-position: bottom;">
-</div>
-<div class="quote" id="{{$key->slug}}_2">
+<div class="content" id="{{$key->slug}}" style="background: url({{url('image/'.$key->image)}});background-position: center;background-repeat: no-repeat;background-size: cover;">
+<div class="subcontent">
     @foreach(\App\Subcontent::whereContentId($key->id)->get() as $child)
-    <h2 style="color:#333;">{{$child->title}}</h2>
-    <p style="color:#333;">{{$child->description}}</p>
+    <div class="row" style="margin: 20px;">
+      <h2 class="header" style="color:#eee;">{{$child->title}}</h2>
+      <p style="color:#eee;">{{$child->description}}</p>
+    </div>
     @endforeach
 </div>
+</div>
+<hr>
 
 @endforeach
 
@@ -42,32 +28,40 @@
     $('.carousel.carousel-slider').carousel({fullWidth: true});
     $(".carousel").height($(window).height());
     @foreach(\App\Content::wherePageId(1)->get() as $key)
-    $("#{{$key->slug}}").height($(window).height()/4);
+    $("#{{$key->slug}}").height($(window).height());
     $("#{{$key->slug}}_2").height($(window).height()/4);
     @endforeach
-
+ $(document).ready(function(){
+      $('.parallax').parallax();
+    });
     function goto(id){
+        if($('nav.menu ul').hasClass('showing')){
+          $('nav.menu ul').toggleClass('showing');
+        }
         var id = $("#"+id);
         var target = $(id);
         target = target.length ? target : $('[name=' + id.slice(1) + ']');
             if (target.length) {
             event.preventDefault();
-            $('html, body').animate({
-              scrollTop: target.offset().top
-            }, 1000, function() {
-              var $target = $(target);
-              $target.focus();
-              if ($target.is(":focus")) {
-                return false;
-              } else {
-                $target.attr('tabindex','-1');
-                $target.focus();
-              };
-            });
+              if($(window).width()<=580){
+                
+                $('html, body').animate({
+                  scrollTop: target.offset().top-190
+                }, 1000,function() {
+                });
+
+              }else{
+                $('html, body').animate({
+                  scrollTop: target.offset().top
+                }, 1000,function() {
+                });
+              }
         }
     }
     $( window ).resize(function() {
         $(".carousel").height($(window).height());
+        $(".carousel-item").height($(window).height());
+        $(".parallax-container").height($(window).height());
         @foreach(\App\Content::wherePageId(1)->get() as $key)
         $("#{{$key->slug}}").height($(window).height()/4);
         $("#{{$key->slug}}_2").height($(window).height()/4);
@@ -76,13 +70,25 @@
     $(document).ready(function() {
         $(".carousel").height($(window).height());
     });
+    $('.handle').on('click', function() {
+      $('nav.menu ul').toggleClass('showing');
+    });
 </script>
 <style type="text/css">
 *{
     outline: none;
+    margin: 0;
+}
+hr {
+    border: 0;
+    height: 1px;
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
 }
 a{
   cursor: pointer;
+}
+.subcontent{
+  position:absolute;background:rgba(0, 0, 0, 0.8);width: 1000px;margin: 200px 400px;
 }
 .logo{
     position: absolute;
@@ -93,111 +99,114 @@ a{
 .carousel.carousel-slider{
     z-index: 99999;
 }
-.quote {
-  background: #dd4b39;
-  position: relative;
-  z-index: 1;
-}
-.quote_home {
-  background: #dd4b39;
-  position: relative;
-  z-index: 1;
-}
-.quote:before, .quote:after {
-  background: inherit;
-  content: '';
-  display: block;
-  height: 100%;
-  left: 0;
-  position: absolute;
-  right: 0;
-  z-index: -10;
-  -webkit-backface-visibility: hidden;
-}
-.quote:before {
-  top: -80px;
-  -webkit-transform: skewY(3deg);
-          transform: skewY(3deg);
-  -webkit-transform-origin: 30% 0;
-          transform-origin: 30% 0;
-}
-.quote:after {
-  bottom: -80px;
-  -webkit-transform: skewY(-3deg);
-          transform: skewY(-3deg);
-  -webkit-transform-origin: 30%;
-          transform-origin: 30%;
-}
-.quote2:before, .quote2:after {
-  background: inherit;
-  content: '';
-  display: block;
-  height: 50%;
-  left: 0;
-  position: absolute;
-  right: 0;
-  z-index: -10;
-  -webkit-backface-visibility: hidden;
-}
-.quote2:before {
-  top: -100px;
-  -webkit-transform: skewY(2deg);
-          transform: skewY(2deg);
-  -webkit-transform-origin: 30% 0;
-          transform-origin: 30% 0;
-}
-.quote2:after {
-  bottom: -100px;
-  -webkit-transform: skewY(-2deg);
-          transform: skewY(-2deg);
-  -webkit-transform-origin: 30%;
-          transform-origin: 30%;
+/* ------------------- NAVIGATION ------------------*/
+
+nav.menu {
+  z-index: 99999999999999999;
+  position: fixed;
+  width: 100%;
+  height: 100px;
+  background-color: rgba(0, 0, 0, .5);
+  text-align: center;
 }
 
-.quote {
-  color: #fff;
-  font-family: 'Fira Sans', sans-serif;
-  margin: 0px 0;
-  padding: 10px 20px;
-  /*text-align: center;*/
+nav.menu a {
+  text-decoration: none;
+  color: white;
+  line-height: 100px;
+  font-size: 120%;
+  padding-left: 50px;
+  padding-right: 50px;
 }
-.quote2 {
-  color: #333;;
-  font-family: 'Fira Sans', sans-serif;
-  padding: 18% 20px;
-  /*text-align: center;*/
+
+nav.menu a:hover {
+  color: orange;
 }
-.quote_home {
-  color: #333;;
-  font-family: 'Segoe UI', sans-serif;
-  padding: 1% 50px;
-  padding-top: 20px;
-  /*text-align: center;*/
+
+nav.menu ul {
+  overflow: hidden;
+  padding: 0;
+  text-align: center;
+  -webkit-transition: max-height 0.4s;
+  -ms-transition: max-height 0.4s;
+  -moz-transition: max-height 0.4s;
+  -o-transition: max-height 0.4s;
+  transition: max-height 0.4s;
 }
-.quote_home:before, .quote_home:after {
-  background: inherit;
-  content: '';
-  display: block;
-  height: 50%;
-  left: 0;
-  position: absolute;
-  right: 0;
-  z-index: -10;
-  -webkit-backface-visibility: hidden;
+
+nav.menu ul li {
+  display: inline-block;
 }
-.quote_home:before {
-  top: -100px;
-  -webkit-transform: skewY(3deg);
-          transform: skewY(3deg);
-  -webkit-transform-origin: 30% 0;
-          transform-origin: 30% 0;
+.handle {
+  width: 100%;
+  text-align: left;
+  box-sizing: border-box;
+  padding: 10px 10px;
+  cursor: pointer;
+  display: none;
 }
-.quote_home:after {
-  bottom: -100px;
-  -webkit-transform: skewY(-3deg);
-          transform: skewY(-3deg);
-  -webkit-transform-origin: 30%;
-          transform-origin: 30%;
+
+li.logos{
+  padding: 10px;
+}
+li.logos img{
+  width: 200px;
+}
+@media screen and (max-width: 580px) {
+  #app {
+    margin-top: 180px;
+  }
+
+  .subcontent{
+    position:absolute;background:rgba(0, 0, 0, 0.7);width: 100%;
+    margin: 0px auto;
+  }
+
+  .carousel{
+    height: 100%;
+  }
+  .carousel .carousel-item img{
+    height: 100%;
+    width: auto;
+  }
+
+  nav.menu {
+    margin-top: -180px;
+    position: fixed;
+    width: 100%;
+    height: auto;
+    background-color: rgba(0, 0, 0, .8);
+    text-align: center;
+  }
+  nav.menu ul {
+    max-height: 110px;
+  }
+  nav.menu ul.showing {
+    max-height: 20em;
+  }
+  nav.menu ul li.logos {
+    text-align: center;
+  }
+  nav.menu ul li.logos img {
+    height: 100px;
+    width: auto;
+  }
+  nav.menu ul li {
+    box-sizing: border-box;
+    width: 100%;
+    text-align: left;
+  }
+  nav.menu ul li a{
+    line-height: 50px;
+    padding: 10px;
+  }
+  .handle {
+    display: block;
+  }
+  .wrapper {
+    width: 150px;
+    height: 110px;
+  }
 }
 </style>
 @endsection

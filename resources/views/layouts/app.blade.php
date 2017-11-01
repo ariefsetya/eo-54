@@ -16,53 +16,18 @@
 </head>
 <body>
     <div id="app">
-        @guest
 
-        @else
-        <div style="margin: 10px;position: fixed;width: 300px;height: auto;z-index: 999999999;">
-        <div style="position: relative;" id="menu">
-            <ul style="margin: 0;" class="collapsible popout" data-collapsible="accordion">
-            <li>
-                <div onclick="goto('app')" class="collapsible-header">
-                    
-                    <img src="{{url('image/logo.png')}}" style="height: 65px;margin:auto;">
-                </div>
-            </li>
-            <li>
-                <div onclick="goto('aboutus')" class="collapsible-header">
-                    About Us
-                </div>
-            </li>
-            @foreach(\App\Menu::with(['contents'])->where('menu_id',1)->get() as $key)
-                <li>
-                    <div onclick="goto('{{$key->contents->slug}}')" class="collapsible-header">
-                        {{$key->title}}
-                    </div>
-                    @if(\App\Menu::with(['contents'])->where('menu_id',$key->id)->count()>0)
-                    <div class="collapsible-body white">
-                        <div class="row">
+  <nav class="menu">
+    <ul>
+        <li class="logos"><img onclick="goto('app')" src="{{url('image/logo.png')}}"></li>
+        @foreach(\App\Menu::with(['contents'])->where('menu_id',1)->get() as $key)
+            <li><a onclick="goto('{{$key->contents->slug}}')">{{$key->title}}</a></li>
+        @endforeach
 
-                        @foreach(\App\Menu::with(['contents'])->where('menu_id',$key->id)->get() as $kay)
-                            <a onclick="goto('{{$kay->contents->slug}}')"><div class="col s4">
-                                <div class="center promo promo-example">
-                                @if($kay->icons->image=="")
-                                <i class="material-icons">{{$kay->icons->name}}</i>
-                                @else
-                                <img style="width: 100%;" src="{{url('image/'.$kay->icons->image)}}">
-                                @endif
-                                <p class="promo-caption">{{$kay->title}}</p>
-                              </div>
-                            </div></a>
-                        @endforeach
-                        </div>
-                    </div>
-                    @endif
-                </li>
-            @endforeach
-            </ul>
-        </div>
-        </div>
-        @endguest
+    </ul>
+    <div class="handle">Menu &#9776;﻿</div>
+  </nav>
+    </div>
 
         @yield('content')
         
