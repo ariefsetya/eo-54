@@ -15,6 +15,7 @@ use App\Client;
 use App\Message;
 use App\Phonebook;
 use App\Website;
+use App\Location;
 use Illuminate\Support\Facades\Input;
 
 class HomeController extends Controller
@@ -37,6 +38,9 @@ class HomeController extends Controller
     public function masterlist($table)
     {
         $data['data'] = $this->getData($table);
+        if(is_null($data['data'])){
+            return "404 Not Found";
+        }
         $array_join = [];
         foreach ($data['data']['fields'] as $key) {
             if($key['join']!=""){
@@ -54,6 +58,9 @@ class HomeController extends Controller
     public function masteradd($table)
     {
         $data['data'] = $this->getData($table);
+        if(is_null($data['data'])){
+            return "404 Not Found";
+        }
         foreach ($data['data']['fields'] as $key) {
             if($key['type']=="select" and $key['join']!=""){
             $data['data']['join'][$key['join']]['all'] = $key['model']::all();
@@ -65,8 +72,9 @@ class HomeController extends Controller
     public function getData($table)
     {
         $field['websites'] = [
+            'slug'=>$table,
             'model'=>Website::class,
-            'table'=>"Website Datas",
+            'table'=>"Website Data",
             'type'=>'1',
             'fields'=>
                 [
@@ -90,9 +98,46 @@ class HomeController extends Controller
                     ]
                 ]
             ];
+        $field['locations'] = [
+            'slug'=>$table,
+            'model'=>Location::class,
+            'table'=>"Client Location",
+            'type'=>'1',
+            'fields'=>
+                [
+                    [
+                        'name'=>'Name',
+                        'field'=>'name',
+                        'type'=>'string',
+                        'value'=>'',
+                        'join'=>'',
+                        'model'=>'',
+                        'required'=>true,
+                    ],
+                    [
+                        'name'=>'Latitude',
+                        'field'=>'lat',
+                        'type'=>'string',
+                        'value'=>'',
+                        'join'=>'',
+                        'model'=>'',
+                        'required'=>true,
+                    ],
+                    [
+                        'name'=>'Longitude',
+                        'field'=>'lng',
+                        'type'=>'string',
+                        'value'=>'',
+                        'join'=>'',
+                        'model'=>'',
+                        'required'=>true,
+                    ]
+                ]
+            ];
         $field['pages'] = [
+            'slug'=>$table,
             'model'=>Pages::class,
-            'table'=>$table,
+            'table'=>'Page',
             'type'=>'1',
             'fields'=>
                 [
@@ -117,8 +162,9 @@ class HomeController extends Controller
                 ]
             ];
         $field['subcontents'] = [
+            'slug'=>$table,
             'model'=>Subcontent::class,
-            'table'=>$table,
+            'table'=>'Subcontent',
             'type'=>'1',
             'fields'=>
                 [
@@ -161,8 +207,9 @@ class HomeController extends Controller
                 ]
             ];
         $field['contents'] = [
+            'slug'=>$table,
             'model'=>Content::class,
-            'table'=>$table,
+            'table'=>'Content',
             'type'=>'1',
             'fields'=>
                 [
@@ -223,8 +270,9 @@ class HomeController extends Controller
                 ]
             ];
         $field['templates'] = [
+            'slug'=>$table,
             'model'=>Template::class,
-            'table'=>$table,
+            'table'=>'Template',
             'type'=>'1',
             'fields'=>
                 [
@@ -249,8 +297,9 @@ class HomeController extends Controller
                 ]
             ];
         $field['icons'] = [
+            'slug'=>$table,
             'model'=>Icon::class,
-            'table'=>$table,
+            'table'=>'Icon',
             'type'=>'1',
             'fields'=>
                 [
@@ -275,8 +324,9 @@ class HomeController extends Controller
                 ]
             ];
         $field['socialmedias'] = [
+            'slug'=>$table,
             'model'=>Socialmedia::class,
-            'table'=>'socialmedia',
+            'table'=>'Social Media',
             'type'=>'1',
             'fields'=>
                 [
@@ -301,8 +351,9 @@ class HomeController extends Controller
                 ]
             ];
         $field['slideshows'] = [
+            'slug'=>$table,
             'model'=>Slideshow::class,
-            'table'=>$table,
+            'table'=>'Slideshow',
             'type'=>'1',
             'fields'=>
                 [
@@ -336,11 +387,21 @@ class HomeController extends Controller
                 ]
             ];
         $field['clients'] = [
+            'slug'=>$table,
             'model'=>Client::class,
-            'table'=>$table,
+            'table'=>'Client',
             'type'=>'1',
             'fields'=>
                 [
+                    [
+                        'name'=>'City',
+                        'field'=>'location_id',
+                        'type'=>'select',
+                        'value'=>'name',
+                        'join'=>'locations',
+                        'model'=>Location::class,
+                        'required'=>true,
+                    ],
                     [
                         'name'=>'Name',
                         'field'=>'name',
@@ -375,13 +436,14 @@ class HomeController extends Controller
                         'value'=>'upload',
                         'join'=>'',
                         'model'=>'',
-                        'required'=>true,
+                        'required'=>false,
                     ]
                 ]
             ];
         $field['menus'] = [
+            'slug'=>$table,
             'model'=>Menu::class,
-            'table'=>$table,
+            'table'=>'Menu',
             'type'=>'1',
             'fields'=>
                 [
@@ -433,8 +495,9 @@ class HomeController extends Controller
                 ]
             ];
         $field['messages'] = [
+            'slug'=>$table,
             'model'=>Message::class,
-            'table'=>$table,
+            'table'=>'Message',
             'type'=>'2',
             'fields'=>
                 [
@@ -459,19 +522,22 @@ class HomeController extends Controller
                 ]
             ];
 
-        return $field[$table];
+        return isset($field[$table])?$field[$table]:null;
     }
 
     public function mastersave($table)
     {
         $data = $this->getData($table);
+        if(is_null($data)){
+            return "404 Not Found";
+        }
         $a = new $data['model'];
         foreach ($data['fields'] as $key) {
             if(in_array($key['type'], ['string','text'])){
                 // echo $a->{$key->['field']};
-                $a->{$key['field']} = Input::get($key['field']);
+                $a->{$key['field']} = (Input::get($key['field'])!=null)?Input::get($key['field']):"";
             }else if($key['type']=="slug"){
-                $a->{$key['field']} = str_slug(Input::get($key['value']));
+                $a->{$key['field']} = str_slug((Input::get($key['value'])!=null)?Input::get($key['value']):"");
             }else if($key['type']=="select"){
                 $a->{$key['field']} = Input::get($key['field'])==null?0:Input::get($key['field']);
             }else if($key['type']=="image"){
@@ -498,6 +564,9 @@ class HomeController extends Controller
     public function masteredit($table,$id)
     {
         $data['data'] = $this->getData($table);
+        if(is_null($data['data'])){
+            return "404 Not Found";
+        }
         foreach ($data['data']['fields'] as $key) {
             if($key['type']=="select" and $key['join']!=""){
                 $data['data']['join'][$key['join']]['all'] = $key['model']::all();
@@ -512,14 +581,18 @@ class HomeController extends Controller
     public function masterupdate($table)
     {
         $data = $this->getData($table);
+        if(is_null($data)){
+            return "404 Not Found";
+        }
         $id = Input::get('id');
         $a = $data['model']::find($id);
         // dd($a);
         foreach ($data['fields'] as $key) {
             if(in_array($key['type'], ['string','text'])){
-                $a->{$key['field']} = Input::get($key['field']);
+                // echo $a->{$key->['field']};
+                $a->{$key['field']} = (Input::get($key['field'])!=null)?Input::get($key['field']):"";
             }else if($key['type']=="slug"){
-                $a->{$key['field']} = str_slug(Input::get($key['value']));
+                $a->{$key['field']} = str_slug((Input::get($key['value'])!=null)?Input::get($key['value']):"");
             }else if($key['type']=="select"){
                 $a->{$key['field']} = Input::get($key['field'])==null?0:Input::get($key['field']);
             }else if($key['type']=="image"){
@@ -544,6 +617,9 @@ class HomeController extends Controller
     public function masterdelete($table,$id)
     {
         $data['data'] = $this->getData($table);
+        if(is_null($data['data'])){
+            return "404 Not Found";
+        }
 
         $data['data']['model']::find($id)->delete();
 

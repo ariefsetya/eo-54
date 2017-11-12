@@ -1,9 +1,9 @@
 @extends('layouts.admin')
 
 @section('content')
-<h2>{{"Add New ".substr(ucfirst($data['table']),0,strlen($data['table'])-1)}}</h2>
+<h2>{{"Add New ".ucfirst($data['table'])}}</h2>
 
-<form method="POST" action="{{route('mastersave',[$data['table']])}}" enctype="multipart/form-data">
+<form method="POST" action="{{route('mastersave',[$data['slug']])}}" enctype="multipart/form-data">
 	{{csrf_field()}}
 	@foreach($data['fields'] as $child)
 

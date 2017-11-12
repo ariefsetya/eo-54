@@ -5,7 +5,7 @@
 @if($data['type']==1)
 <h2>{{"All ".ucfirst($data['table'])}}</h2>
 
-<a class="btn" href="{{route('masteradd',[$data['table']])}}">{{"Add New ".substr(ucfirst($data['table']),0,strlen($data['table'])-1)}}</a>
+<a class="btn" href="{{route('masteradd',[$data['slug']])}}">{{"Add New ".ucfirst($data['table'])}}</a>
 
 <table class="bordered highlight centered">
 	<thead>
@@ -26,7 +26,7 @@
 			<td>{{ $child[$key['join']]!=null?$child[$key['join']]->{$key['value']}:"No Data" }}</td>
 			@endif
 			@endforeach
-			<td class="center"><a class="waves-effect waves-light btn blue" href="{{route('masteredit',[$data['table'],$child->id])}}">Edit</a> <a class="modal-trigger waves-effect waves-light btn red" href="#dialog_delete_{{$child->id}}">Delete</a></td>
+			<td class="center"><a class="waves-effect waves-light btn blue" href="{{route('masteredit',[$data['slug'],$child->id])}}">Edit</a> <a class="modal-trigger waves-effect waves-light btn red" href="#dialog_delete_{{$child->id}}">Delete</a></td>
 		</tr>
 		@endforeach
 	</tbody>
@@ -52,7 +52,7 @@
 				</table>
 		    </div>
 		    <div class="modal-footer">
-		      <a href="{{route('masterdelete',[$data['table'],$child->id])}}" class="modal-action waves-effect waves-red btn"><i class="material-icons left">check</i> Yes</a>
+		      <a href="{{route('masterdelete',[$data['slug'],$child->id])}}" class="modal-action waves-effect waves-red btn"><i class="material-icons left">check</i> Yes</a>
 		      <a class="modal-action modal-close waves-effect waves-green btn" ><i class="material-icons left">close</i> No</a>
 		    </div>
 		  </div>

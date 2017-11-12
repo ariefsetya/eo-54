@@ -12,7 +12,7 @@
     @foreach(\App\Subcontent::whereContentId($key->id)->get() as $child)
     <div class="row" style="margin: 20px;">
       <h2 class="header" style="color:#eee;">{{$child->title}}</h2>
-      <p style="color:#eee;">{{$child->description}}</p>
+      <p style="color:#eee;white-space: pre-wrap;">{{$child->description}}</p>
     </div>
     @endforeach
 </div>
@@ -20,16 +20,115 @@
 <hr>
 
 @endforeach
-<div class="content" id="client" style="background: url({{url('image/dotmap-indonesia.png')}});background-position: center;background-repeat: no-repeat;background-size:cover;">
-  <div class="container">
-    <h2>Clients</h2>
-  </div>
+<div class="content" id="client" style="background:rgba(0, 0, 255, 0.8)">
 </div>
 <hr>
+<div class="content" id="contact_us" style="background:url({{url('image/17126378_278658622554160_9184124797502619648_n.jpg')}});background-size: cover;background-repeat: no-repeat;">
+  <div class="container">
+    <div class="row">
+        <div class="col m10 offset-m1 s12" style="margin-top: 150px;background:rgba(0, 0, 0, 0.8);">
+            <h2 class="center-align" style="color: #eee">Contact Us</h2>
+            <div class="row">
+                <form class="col m8 offset-m2 s12">
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input id="name" type="text">
+                            <label for="name">Name</label>
+                        </div>
+                        <div class="input-field col s12">
+                            <input id="email" type="email" class="form-input">
+                            <label for="email">Email</label>
+                        </div>
+                        <div class="input-field col s12">
+                          <textarea id="message" class="materialize-textarea"></textarea>
+                          <label for="message">Message</label>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col m12">
+                         <p class="right-align"><button class="btn btn-large waves-effect waves-light" type="button" name="action">Send Message</button></p>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<hr>
+<div>
+  <footer class="page-footer" style="background:#333">
+          <div class="container">
+            <div class="row">
+              <div class="col l6 s12">
+                <h5 class="white-text">Footer Content</h5>
+                <p class="white-text text-lighten-4">You can use rows and columns here to organize your footer content.</p>
+              </div>
+              <div class="col l4 offset-l2 s12">
+                <h5 class="">Social Media</h5>
+                <ul>
+                  @foreach(\App\Socialmedia::get() as $key)
+                    <li><a target="_blank" class="white-text text-lighten-3" href="{{$key->url}}"><div class="ion-social-{{$key->type}}" style="width: 20px;display: inline-block;text-align: center;"></div> {{$key->url}}</a></li>
+                  @endforeach
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="footer-copyright">
+            <div class="container">
+            &copy; 1980-{{date("Y")}} Kokon Production
+            </div>
+          </div>
+        </footer>
+            
+</div>
+
 
 @endsection
 
 @section('footer')
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBUcDP0pkxDFiN0geV-KVmWhyd-zrqcLIg&callback=initMap">
+    </script>
+<script>
+
+
+      function initMap() {
+        var bounds = new google.maps.LatLngBounds();
+        var map = new google.maps.Map(document.getElementById('client'));
+        @foreach(\App\Location::get() as $key)
+            var content = "";
+            var infoWindow = new google.maps.InfoWindow();
+            var uluru = {lat: {{$key->lat}}, lng: {{$key->lng}}};
+              content +='<b>{{$key->name}}</b><br>';
+          @foreach(\App\Client::whereLocationId($key->id)->get() as $child)
+              content +='{{$child->name}}<br>';
+
+          @endforeach
+          @if(\App\Client::whereLocationId($key->id)->count()>0)
+            bounds.extend(uluru);
+
+            infoWindow.setOptions({
+                content: content,
+                position: uluru,
+            });
+            infoWindow.open(map); 
+            @endif
+        @endforeach
+        var infoWindow = new google.maps.InfoWindow();
+        var uluru = {lat: -4.602695, lng: 109.8012983};
+        bounds.extend(uluru);
+        var content = "<h3>Clients</h3>";
+
+        infoWindow.setOptions({
+            content: content,
+            position: uluru,
+        });
+        infoWindow.open(map); 
+        map.fitBounds(bounds);
+      }
+    </script>
 <script type="text/javascript">
     $('.carousel.carousel-slider').carousel({fullWidth: true});
     $(".carousel").height($(window).height());
@@ -37,6 +136,7 @@
     $("#{{$key->slug}}").height($(window).height());
     @endforeach
     $("#client").height($(window).height());
+    $("#contact_us").height($(window).height());
  autoplay()   
   function autoplay() {
       $('.carousel').carousel('next');
@@ -73,6 +173,8 @@
         @foreach(\App\Content::wherePageId(1)->get() as $key)
         $("#{{$key->slug}}").height($(window).height());
         @endforeach
+        $("#client").height($(window).height());
+        $("#contact_us").height($(window).height());
     });
     $(document).ready(function() {
         $(".carousel").height($(window).height());
@@ -88,6 +190,12 @@
 }
 #client h2{
   margin: 0;
+}
+.gm-style-iw+div {
+    display: none;
+}
+.gm-style-iw {
+    text-align: center;
 }
 hr {
     border: 0;

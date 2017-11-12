@@ -1,9 +1,9 @@
 @extends('layouts.admin')
 
 @section('content')
-<h2>{{"Edit ".substr(ucfirst($data['table']),0,strlen($data['table'])-1)." Data"}}</h2>
+<h2>{{"Edit ".ucfirst($data['table'])." Data"}}</h2>
 
-<form method="POST" action="{{route('masterupdate',[$data['table']])}}" enctype="multipart/form-data">
+<form method="POST" action="{{route('masterupdate',[$data['slug']])}}" enctype="multipart/form-data">
 	{{csrf_field()}}
 	<input type="hidden" name="id" value="{{$data['edit']->id}}">
 	@foreach($data['fields'] as $child)
