@@ -23,7 +23,7 @@
         @foreach(\App\Menu::with(['contents'])->where('menu_id',1)->get() as $key)
             <li><a onclick="goto('{{$key->contents->slug}}')">{{$key->title}}</a></li>
         @endforeach
-        <li><a onclick="goto('clients')">Clients</a></li>
+        <li><a onclick="goto('client')">Clients</a></li>
         <li><a onclick="goto('contact_us')">Contact Us</a></li>
 
     </ul>
