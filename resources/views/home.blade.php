@@ -12,7 +12,7 @@
     @foreach(\App\Subcontent::whereContentId($key->id)->get() as $child)
     <div class="row" style="margin: 20px;">
       <h2 class="header" style="color:#eee;">{{$child->title}}</h2>
-      <p style="color:#eee;white-space: pre-wrap;">{{$child->description}}</p>
+      <p style="color:#eee;white-space: pre-wrap;">{!!$child->description!!}</p>
     </div>
     @endforeach
 </div>
@@ -62,8 +62,9 @@
           <div class="container">
             <div class="row">
               <div class="col l6 s12">
-                <h5 class="white-text">Footer Content</h5>
-                <p class="white-text text-lighten-4">You can use rows and columns here to organize your footer content.</p>
+                <h5 class="white-text">Kokon Production</h5>
+                <p class="white-text text-lighten-4">Komp. Business Park Blok F1 No. 12<br>Kebon Jeruk, Jawa Barat, Indonesia 11620<br>
+                telp. +6221 300 679 09 fax. +6221 300 615 38</p>
               </div>
               <div class="col l4 offset-l2 s12">
                 <h5 class="">Social Media</h5>

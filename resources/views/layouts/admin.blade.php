@@ -36,6 +36,7 @@
               <a href="{{url('master/socialmedias')}}"><div class="collapsible-header">Social Media</div></a>
               <a href="{{url('master/icons')}}"><div class="collapsible-header">Icons</div></a>
               <a href="{{url('master/messages')}}"><div class="collapsible-header">Guest Messages</div></a>
+              <a href="{{url('master/gallery')}}"><div class="collapsible-header">Gallery</div></a>
               <a href="{{url('master/websites')}}"><div class="collapsible-header">Websites</div></a>
           </li>
         </ul>

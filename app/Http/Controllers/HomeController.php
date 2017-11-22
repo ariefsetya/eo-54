@@ -16,6 +16,7 @@ use App\Message;
 use App\Phonebook;
 use App\Website;
 use App\Location;
+use App\Gallery;
 use Illuminate\Support\Facades\Input;
 
 class HomeController extends Controller
@@ -320,6 +321,33 @@ class HomeController extends Controller
                         'join'=>'',
                         'model'=>'',
                         'required'=>false,
+                    ]
+                ]
+            ];
+        $field['gallery'] = [
+            'slug'=>$table,
+            'model'=>Gallery::class,
+            'table'=>'Gallery',
+            'type'=>'1',
+            'fields'=>
+                [
+                    [
+                        'name'=>'Image',
+                        'field'=>'image',
+                        'type'=>'image',
+                        'value'=>'upload',
+                        'join'=>'',
+                        'model'=>'',
+                        'required'=>true,
+                    ],
+                    [
+                        'name'=>'Description',
+                        'field'=>'description',
+                        'type'=>'text',
+                        'value'=>'',
+                        'join'=>'',
+                        'model'=>'',
+                        'required'=>true,
                     ]
                 ]
             ];
