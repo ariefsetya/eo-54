@@ -23,6 +23,19 @@
 <div class="content" id="client" style="background:rgba(0, 0, 255, 0.8)">
 </div>
 <hr>
+<div class="content" id="gallery" style="background:#333333;">
+  <div class="container" style="padding: 10px;">
+    <h2 class="header" style="color:#eee;text-align: center;padding: 30px;">Gallery</h2>
+    <div class="row">
+    @foreach(\App\Gallery::get() as $key)
+      <div class="col s4">
+        <img class="materialboxed" style="width: 100%;height: auto;" src="{{url('image/'.$key->image)}}">
+      </div>
+    @endforeach
+    </div>
+  </div>
+</div>
+<hr>
 <div class="content" id="contact_us" style="background:url({{url('image/17126378_278658622554160_9184124797502619648_n.jpg')}});background-size: cover;background-repeat: no-repeat;">
   <div class="container">
     <div class="row">
