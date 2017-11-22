@@ -145,12 +145,15 @@
     </script>
 <script type="text/javascript">
     $('.carousel.carousel-slider').carousel({fullWidth: true});
+
     $(".carousel").height($(window).height());
-    @foreach(\App\Content::wherePageId(1)->get() as $key)
-    $("#{{$key->slug}}").height($(window).height());
-    @endforeach
-    $("#client").height($(window).height());
-    $("#contact_us").height($(window).height());
+    if($(window).width()<=580){
+      @foreach(\App\Content::wherePageId(1)->get() as $key)
+      $("#{{$key->slug}}").height($(window).height());
+      @endforeach
+      $("#client").height($(window).height());
+      $("#contact_us").height($(window).height());
+    }
  autoplay()   
   function autoplay() {
       $('.carousel').carousel('next');
@@ -182,13 +185,14 @@
     }
     $( window ).resize(function() {
         $(".carousel").height($(window).height());
-        $(".carousel-item").height($(window).height());
-        $(".parallax-container").height($(window).height());
-        @foreach(\App\Content::wherePageId(1)->get() as $key)
-        $("#{{$key->slug}}").height($(window).height());
-        @endforeach
-        $("#client").height($(window).height());
-        $("#contact_us").height($(window).height());
+
+        if($(window).width()<=580){
+          @foreach(\App\Content::wherePageId(1)->get() as $key)
+          $("#{{$key->slug}}").height($(window).height());
+          @endforeach
+          $("#client").height($(window).height());
+          $("#contact_us").height($(window).height());
+        }
     });
     $(document).ready(function() {
         $(".carousel").height($(window).height());
