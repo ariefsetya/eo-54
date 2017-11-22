@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+<div style="">
 <div class="carousel carousel-slider" data-indicators="true">
   @foreach(\App\Slideshow::get() as $key)
     <a class="carousel-item" href="#{{$key->title}}"><img src="{{url('image/'.$key->image)}}"></a>
@@ -67,6 +68,7 @@
             </div>
         </div>
     </div>
+</div>
 </div>
 </div>
 <hr>
@@ -153,6 +155,12 @@
       @endforeach
       $("#client").height($(window).height());
       $("#contact_us").height($(window).height());
+    }else{
+      @foreach(\App\Content::wherePageId(1)->get() as $key)
+      $("#{{$key->slug}}").height($(window).height()*1.5);
+      @endforeach
+      $("#client").height($(window).height()*1.5);
+      $("#contact_us").height($(window).height()*1.5);
     }
  autoplay()   
   function autoplay() {
@@ -192,6 +200,12 @@
           @endforeach
           $("#client").height($(window).height());
           $("#contact_us").height($(window).height());
+        }else{
+          @foreach(\App\Content::wherePageId(1)->get() as $key)
+          $("#{{$key->slug}}").height($(window).height()*1.5);
+          @endforeach
+          $("#client").height($(window).height()*1.5);
+          $("#contact_us").height($(window).height()*1.5);
         }
     });
     $(document).ready(function() {
