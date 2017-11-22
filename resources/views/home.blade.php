@@ -157,7 +157,11 @@
       $("#contact_us").height($(window).height());
     }else{
       @foreach(\App\Content::wherePageId(1)->get() as $key)
-      $("#{{$key->slug}}").height($(window).height()*1.5);
+      if($("#{{$key->slug}}").height()<$(window).height()){
+        $("#{{$key->slug}}").height($(window).height());
+      }else{
+        $("#{{$key->slug}}").height($("#{{$key->slug}} .subcontent").height()+50);
+      }
       @endforeach
       $("#client").height($(window).height()*1.5);
       $("#contact_us").height($(window).height()*1.5);
@@ -202,7 +206,11 @@
           $("#contact_us").height($(window).height());
         }else{
           @foreach(\App\Content::wherePageId(1)->get() as $key)
-          $("#{{$key->slug}}").height($(window).height()*1.5);
+          if($("#{{$key->slug}}").height()<$(window).height()){
+            $("#{{$key->slug}}").height($(window).height());
+          }else{
+            $("#{{$key->slug}}").height($("#{{$key->slug}} .subcontent").height()+50);
+          }
           @endforeach
           $("#client").height($(window).height()*1.5);
           $("#contact_us").height($(window).height()*1.5);
