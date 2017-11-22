@@ -147,7 +147,7 @@
     $('.carousel.carousel-slider').carousel({fullWidth: true});
 
     $(".carousel").height($(window).height());
-    if($(window).width()<=580){
+    if($(window).width()>580){
       @foreach(\App\Content::wherePageId(1)->get() as $key)
       $("#{{$key->slug}}").height($(window).height());
       @endforeach
@@ -186,7 +186,7 @@
     $( window ).resize(function() {
         $(".carousel").height($(window).height());
 
-        if($(window).width()<=580){
+        if($(window).width()>580){
           @foreach(\App\Content::wherePageId(1)->get() as $key)
           $("#{{$key->slug}}").height($(window).height());
           @endforeach
