@@ -24,6 +24,7 @@
             <li><a onclick="goto('{{$key->contents->slug}}')">{{$key->title}}</a></li>
         @endforeach
         <li><a onclick="goto('client')">Clients</a></li>
+        <li><a onclick="goto('gallery')">Gallery</a></li>
         <li><a onclick="goto('contact_us')">Contact Us</a></li>
 
     </ul>
