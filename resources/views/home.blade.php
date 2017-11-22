@@ -28,8 +28,8 @@
     <h2 class="header" style="color:#eee;text-align: center;padding: 30px;">Gallery</h2>
     <div class="row">
     @foreach(\App\Gallery::get() as $key)
-      <div class="col s4">
-        <img class="materialboxed" style="width: 100%;height: auto;" src="{{url('image/'.$key->image)}}">
+    <div class="col s4" style="overflow: hidden;height: 250px;margin-bottom: 20px;">
+        <img class="materialboxed" style="width: 100%;height: 100%;" src="{{url('image/'.$key->image)}}">
       </div>
     @endforeach
     </div>
